@@ -1,0 +1,10 @@
+import "YoloServer.idsl";
+
+Component objectDetectionRetinaNet
+{
+    Communications
+    {
+        implements YoloServer;
+    };
+    language Python;
+};

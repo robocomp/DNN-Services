@@ -1,0 +1,13 @@
+# Endpoints for implements interfaces
+YoloServer.Endpoints=tcp -p 10123
+
+
+# DNN configuration
+weights_file = src/dnnlib/models/coco_resnet_50_map_0_335_state_dict.pt
+cls_file = src/dnnlib/classes/cls_list.csv
+output_dir = src/dnnlib/detections/
+
+Ice.MessageSizeMax=20004800
+Ice.Warn.Connections=0
+Ice.Trace.Network=0
+Ice.Trace.Protocol=0
