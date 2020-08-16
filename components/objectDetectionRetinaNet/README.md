@@ -5,16 +5,16 @@
 ## Installation
 
 -   Install dependencies :
-```bash
-# system packages
-apt-get install tk-dev python-tk
-# python packages
-pip install torch torchvision
-pip install pandas
-pip install pycocotools
-pip install opencv-python
-pip install requests
-```
+    ```bash
+    # system packages
+    apt-get install tk-dev python-tk
+    # python packages
+    pip install torch torchvision
+    pip install pandas
+    pip install pycocotools
+    pip install opencv-python
+    pip install requests
+    ```
 
 -   Download pretrained weights [here](https://drive.google.com/file/d/1yLmjq3JtXi841yXWBxst0coAgR26MNBS/view) and move it to `src/dnn_lib/models`.
 

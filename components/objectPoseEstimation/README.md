@@ -10,14 +10,14 @@ Also, this component has three modes of operation :
 ## Installation
 
 1)  Install dependencies :
--   Install CUDA9.0+
--   Install python dependencies from `requirement.txt` :
-    ```bash
-    pip3 install -r requirement.txt
-    ```
--   Install tkinter through `sudo apt install python3-tk`.
--   Install [python-pcl](https://github.com/strawlab/python-pcl).
-    -   For Ubuntu 18.04, refer to [this issue](https://github.com/strawlab/python-pcl/issues/317#issuecomment-628115649).
+    -   Install CUDA9.0+
+    -   Install python dependencies from `requirement.txt` :
+        ```bash
+        pip3 install -r requirement.txt
+        ```
+    -   Install tkinter through `sudo apt install python3-tk`.
+    -   Install [python-pcl](https://github.com/strawlab/python-pcl).
+        -   For Ubuntu 18.04, refer to [this issue](https://github.com/strawlab/python-pcl/issues/317#issuecomment-628115649).
 
 
 2)  Setup necessary folders and PointNet++ :
@@ -34,6 +34,17 @@ Also, this component has three modes of operation :
 ## Configuration parameters
 
 Like any other component, *objectPoseEstimation* needs a configuration file to start. In `etc/config`, you can change the ports and other parameters in the configuration file, according to your setting.
+
+### Parameters list
+
+-   `ObjectPoseEstimationRGBD.Endpoints` : TCP port number to run `objectPoseEstimation` endpoints.
+-   `rgb_config_file` : path to `Segmentation-driven 6D Object Pose Estimation` config file.
+-   `rgb_weights_file` : path to `Segmentation-driven 6D Object Pose Estimation` pretrained weights file.
+-   `rgb_vertices_file` : path to models vertices file.
+-   `rgbd_weights_file` : path to PVN3D pretrained weights file.
+-   `rgb_cam_z_offset` : calibration offset, added along camera z-axis to compensate for lost depth information in case of RGB pose estimation (can be adjusted according to each camera setting).
+-   `inference_mode` : an integer that defines inference mode of pose estimation, whether it's _RGB(0)_, _RGBD(1)_ or _Ensemble(2)_.
+-   Ice parameters.
 
 ## Starting the component
 
@@ -52,3 +63,61 @@ Then run the component :
 ```bash
 python3 src/objectPoseEstimation.py etc/config
 ```
+
+## Pose Return Description
+
+The estimated poses are returned as a sequence of type `ObjectPose`, named `PoseType`. The data type definition goes as follows :
+
+```
+struct ObjectPose
+    {
+        string objectname;
+        float x;
+        float y;
+        float z;
+        float qx;
+        float qy;
+        float qz;
+        float qw;
+    };
+
+    sequence<ObjectPose> PoseType;
+```
+
+`ObjectPose` data type consists of :
+-   `objectname` : string representing object name.
+-   `x` : float representing translation along x-axis.
+-   `y` : float representing translation along y-axis.
+-   `z` : float representing translation along z-axis.
+-   `qx` : float representing translation x-component of rotation quaternions.
+-   `qy` : float representing translation y-component of rotation quaternions.
+-   `qz` : float representing translation z-component of rotation quaternions.
+-   `qw` : float representing translation w-component of rotation quaternions.
+
+__Note :__ 
+
+-   The estimated poses are relative to camera coordinates.
+
+-   To project the estimated poses into camera coordinates of CoppeliaSim simulator, flip them about camera z-axis.
+
+-   Here is a Python example of estimated poses projection into world coordinates of CoppeliaSim simulator (from `viriatoGraspingPyrep` component) :
+
+    ```python
+    def process_pose(self, obj_trans, obj_rot):
+        # convert an object pose from camera frame to world frame
+        # define camera pose and z-axis flip matrix
+        cam_trans = self.cameras["Camera_Shoulder"]["position"]
+        cam_rot_mat = R.from_quat(self.cameras["Camera_Shoulder"]["rotation"])
+        z_flip = R.from_matrix(np.array([[-1,0,0],[0,-1,0],[0,0,1]]))
+        # get object position in world coordinates
+        obj_trans = np.dot(cam_rot_mat.as_matrix(), np.dot(z_flip.as_matrix(), np.array(obj_trans).reshape(-1,)))
+        final_trans = obj_trans + cam_trans
+        # get object orientation in world coordinates
+        obj_rot_mat = R.from_quat(obj_rot)
+        final_rot_mat = obj_rot_mat * z_flip * cam_rot_mat
+        final_rot = final_rot_mat.as_quat()
+        # return final object pose in world coordinates
+        final_pose = list(final_trans)
+        final_pose.extend(list(final_rot))
+        return final_pose
+    ```
