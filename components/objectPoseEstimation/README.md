@@ -3,8 +3,8 @@
 `objectPoseEstimation` component is a Python component that merges both `objectPoseEstimationRGB` and `objectPoseEstimationRGBD` components. This component contains an interface method `getObjectPose`, which can be directly called to get the object poses of a certain RGBD image.
 
 Also, this component has three modes of operation :
--   RGB(0) : Inference is done through [Segmentation-driven 6D Object Pose Estimation](https://arxiv.org/abs/1812.02541) neural network using RGB data only.
--   RGBD(1) : Inference is done through [PVN3D](https://arxiv.org/abs/1911.04231) neural network using RGBD data.
+-   RGB(0) : Inference is done through `Segmentation-driven 6D Object Pose Estimation` neural network using RGB data only.
+-   RGBD(1) : Inference is done through `PVN3D` neural network using RGBD data.
 -   Ensemble(2) : Inference is done through both neural networks and the results are ensembled for more precision.
 
 ## Installation
@@ -121,3 +121,31 @@ __Note :__
         final_pose.extend(list(final_rot))
         return final_pose
     ```
+
+## Objects Names Mapping
+
+`YCB-Videos dataset` objects can be found [here](https://github.com/robocomp/grasping/tree/master/data-collector/meshes/ycb). The following table shows the mapping between `objectPoseEstimation` return names and `YCB-Videos dataset` objects names.
+
+| Return Name        |      YCB Model        |
+|--------------------|-----------------------|
+|  can_1             |  002_master_chef_can  |
+|  box_1             |  003_cracker_box      |
+|  box_2             |  004_sugar_box        |
+|  can_2             |  005_tomato_soup_can  |
+|  bottle_1          |  006_mustard_bottle   |
+|  can_3             |  007_tuna_fish_can    |
+|  box_3             |  008_pudding_box      |
+|  box_4             |  009_gelatin_box      |
+|  can_4             |  010_potted_meat_can  |
+|  banana_1          |  011_banana           |
+|  pitcher_base_1    |  019_pitcher_base     |
+|  bleach_cleanser_1 |  021_bleach_cleanser  |
+|  bowl_1            |  024_bowl             |
+|  mug_1             |  025_mug              |
+|  power_drill_1     |  035_power_drill      |
+|  wood_block_1      |  036_wood_block       |
+|  scissors_1        |  037_scissors         |
+|  marker_1          |  040_large_marker     |
+|  large_clamp_1     |  051_large_clamp      |
+|  large_clamp_2     |  052_extra_large_clamp|
+|  foam_brick_1      |  061_foam_brick       |
