@@ -15,3 +15,7 @@ Python component that estimates objects poses from an RGBD image. It uses two DN
 ## objectDetectionRetinaNet
 
 Python component that detects objects in an RGB image. It uses `RetinaNet` DNN, which relies on focal loss for dense object detection.
+
+## depthEstimation
+
+Python component that predicts depths in a RGB image. It uses `DenseNet + Transfer Learning`.
