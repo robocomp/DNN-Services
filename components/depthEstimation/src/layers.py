@@ -1,7 +1,7 @@
-from keras.engine.topology import Layer, InputSpec
-import keras.utils.conv_utils as conv_utils
+from tensorflow.keras.layers import Layer, InputSpec
+import tensorflow.python.keras.utils.conv_utils as conv_utils
 import tensorflow as tf
-import keras.backend as K
+import tensorflow.keras.backend as K
 
 def normalize_data_format(value):
     if value is None:
