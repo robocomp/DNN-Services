@@ -12,7 +12,7 @@ This section assumes the user has already installed the RoboComp core library an
 
 Before using the component, the user needs to install the necessary libraries:
 ```
-pip install numpy opencv-python tensorflow
+pip3 install numpy opencv-python tensorflow==2.3
 ```
 
 ## Configuration parameters
