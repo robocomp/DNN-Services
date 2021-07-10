@@ -45,30 +45,7 @@ class SpecificWorker(GenericWorker):
         self.timer.timeout.connect(self.compute)
         self.Period = 20
         self.timer.start(self.Period)
-        self.method = 'TL'
-        # Method = 'ADA' for depth estimation using Adabins
-        # Method = 'TL' for depth estimation using Transfer Learning
-      
-        ##if(self.method=='TL'):
-        ##    try:
-        ##        # Argument Parser
-                  ##parser = argparse.ArgumentParser(description='High Quality Monocular Depth ##Estimation via Transfer Learning')
-                  ##parser.add_argument('--model', default='nyu.h5', type=str, help='Trained Keras model ##file.')
-                  ##args = parser.parse_args()
-        ##          model_path = 'nyu.h5' 
-                  # Custom object needed for inference and training
-        ##          custom_objects = {'BilinearUpSampling2D': BilinearUpSampling2D, ##'depth_loss_function': None}
-
-        ##          print('Loading model...')
- 
-                  # Load model into GPU / CPU
-        ##          self.model = load_model(model_path, custom_objects=custom_objects, compile=False)
-
-        ##          print('\nModel loaded ({0}).'.format(model_path))
         
-        ##    except:
-        ##          print("Error Loading Model. Ensure that models are downloaded and placed in correct ##directory")
-
         # display configurations
         self.thickness = 2
         self.fps_text_color = (0,0,0)
@@ -92,6 +69,7 @@ class SpecificWorker(GenericWorker):
         except:
             print("Error taking camera feed. Make sure Camerasimple is up and running")
             return False
+            
         # Rearranging to form numpy matrix
         frame = np.fromstring(data.image, np.uint8)
         frame = np.reshape(frame, (data.height, data.width, data.depth))
@@ -120,24 +98,21 @@ class SpecificWorker(GenericWorker):
         frame = np.reshape(frame, (1,depthData.height, depthData.width, 1))
         #frame_shape = (1,240,320,1)
         
-        ##frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        #frame = cv2.resize(frame,(640,480))
-        
-        #displaying depthmap frame         
+        #displaying depthmap frame  
         viz = display_images(frame.copy()) 
         print("displaying depth frame")
         #print(viz.shape)
-        
+
         ## Display image using OpenCV
-        viz = cv2.resize(viz,(640,480))
-        
-        ## insert FPS in frame
-        ###fps = 1.0 / elapsed_time
-        ###print(elapsed_time)
-        ###print_text = "FPS : " + str(int(fps))
-        ###cv2.putText(viz, print_text, (20, 50),
-        ###        cv2.FONT_HERSHEY_SIMPLEX, 0.5, self.fps_text_color, 2)
+        viz = cv2.resize(viz,(640,480))    
         cv2.imshow("Depth Estimation Client",viz)
+        
+        # insert FPS in frame
+        #fps = 1.0 / elapsed_time
+        #print(elapsed_time)
+        #print_text = "FPS : " + str(int(fps))
+        #cv2.putText(viz, print_text, (20, 50),
+        #        cv2.FONT_HERSHEY_SIMPLEX, 0.5, self.fps_text_color, 2)
         
         
     # =============== Methods for Component Implements ==================
@@ -154,20 +129,15 @@ class SpecificWorker(GenericWorker):
             # Rearranging to form numpy matrix
             frame = np.fromstring(depthImg.image, np.uint8)
             frame = np.reshape(frame, (depthImg.height, depthImg.width, depthImg.depth))
-            #frame_cp = copy.deepcopy(frame)
             
             outputs = None
-            if(self.method=='TL'):
-                #inputs = load_images(frame)
-                #print('\n  Frame Loaded images of size {1}.'.format(inputs.shape[1:]))
-                outputs = self.depthData.value
-                if(outputs is not None):
-                    print('depth predicted')
-                else:
-                    print("No depth predicted")
+            outputs = self.depthData.value
+                
+            if(outputs is not None):
+                print('depth predicted')
             else:
-                print("Error! Please enter valid detection method number")
-
+                print("No depth predicted")
+            
         except Exception as e:
             print(e)
             print("Error processing input image")
