@@ -8,7 +8,7 @@ This section assumes the user has already installed the RoboComp core library an
 
 Before using the component, the user needs to install the necessary libraries:
 ```
-pip3 install numpy opencv-python tensorflow
+pip3 install numpy opencv-python tensorflow==2.3
 ```
 
 ## Configuration parameters
@@ -27,7 +27,7 @@ Ice.Trace.Protocol=0
 ```
 After configuring proxies, 
 
-For detection using Transfer Learning, download depth estimation models from [here](https://drive.google.com/file/d/1bhw0S6IFo3xjyGYsrTuHZlfS5hWnjyhG/view?usp=sharing), move it to the assets folder. Also, set **self.method = 'TL'** in `src/specificworker.py`
+For detection using Transfer Learning, download depth estimation models from [Models](https://drive.google.com/drive/folders/151knPx2eC1ufAO8YoRx9GlPkPCy3-QZ8?usp=sharing), move it to the assets folder. Also, set **self.method = 'mobdepthwithskip'** in `src/specificworker.py`for using *mobdepthwithskip.hdf5"* model or set **self.method = 'mobdepthwithoutskip'** in `src/specificworker.py`for using *mobdepthwithoutskip.hdf5"* model.
 
 
 ## Starting the component
