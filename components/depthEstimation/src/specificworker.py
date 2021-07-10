@@ -30,7 +30,7 @@ import argparse
 import matplotlib
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '5'
 
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from layers import BilinearUpSampling2D
 from utils import predict, load_images, display_images
 from genericworker import *
@@ -48,11 +48,22 @@ class SpecificWorker(GenericWorker):
         self.timer.timeout.connect(self.compute)
         self.Period = 20
         self.timer.start(self.Period)
-        self.method = 'TL'
+        self.method = 'mobdepthwithskip'
        
-        if(self.method=='TL'):
-            try:
-                  model_path = 'assets/nyu.h5' 
+        
+        try:
+                  if(self.method=='mobdepthwithskip'):
+                  
+                      model_path = 'assets/mobdepthwithskip.hdf5'
+                  
+                  elif(self.method=="mobdepthwithoutskip"):
+                  
+                      model_path = 'assets/mobdepthwithoutskip.hdf5'
+                      
+                  else:
+                      print("Error! Please enter valid depth estimation method ")             
+    
+                           
                   # Custom object needed for inference and training
                   custom_objects = {'BilinearUpSampling2D': BilinearUpSampling2D, 'depth_loss_function': None}
 
@@ -63,7 +74,7 @@ class SpecificWorker(GenericWorker):
 
                   print('\nModel loaded ({0}).'.format(model_path))
         
-            except:
+        except:
                   print("Error Loading Model. Ensure that models are downloaded and placed in correct directory")
                     
 
@@ -97,29 +108,28 @@ class SpecificWorker(GenericWorker):
         try:
             # Rearranging to form numpy matrix
             frame = np.fromstring(depthImg.image, np.uint8)
+            
             # Resizing to required size
             # depthImg_shape = (480,640,3)
             frame = np.reshape(frame, (depthImg.height, depthImg.width, depthImg.depth))
-            #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             outputs = None
             
-            if(self.method=='TL'):
-                inputs = load_images(frame)
-                #print('\n  Frame Loaded images of size {1}.'.format(inputs.shape[1:]))
-                outputs = predict(self.model, inputs)
+            inputs = load_images(frame)
+            
+            outputs = predict(self.model, inputs)
                 
-                if(outputs is not None):
-                    print('depth predicted')
-                else:
-                    print("No depth predicted")
+            if(outputs is not None):
+                print('depth predicted')
             else:
-                print("Error! Please enter valid depth estimation method ")             
+                print("No depth predicted")  
 
         except Exception as e:
             print(e)
             print("Error processing input image")
+            
         # Create new DepthScene for depth output
-        # outputs_shape = (1,240,480,1) 
+        # outputs_shape = (1,240,320,1) 
+        
         result = DepthScene()
         result.value = outputs
         result.height,result.width,result.depth = outputs[0].shape
