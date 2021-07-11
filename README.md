@@ -18,4 +18,4 @@ Python component that detects objects in an RGB image. It uses `RetinaNet` DNN, 
 
 ## depthEstimation
 
-Python component that predicts depths in a RGB image. It uses `DenseNet + Transfer Learning`.
+Python component that predicts depths in a RGB image. It uses `MobileNet + Transfer Learning`.

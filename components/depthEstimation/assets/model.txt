@@ -1,1 +1,1 @@
-Move the model file "nyu.h5" in this directory
+Move "mobdepthwithskip.hdf5" and "mobdepthwithoutskip.hdf5" to this folder
