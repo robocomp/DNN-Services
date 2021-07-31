@@ -30,11 +30,16 @@ except KeyError:
 
 Ice.loadSlice("-I ./src/ --all ./src/CommonBehavior.ice")
 import RoboCompCommonBehavior
+Ice.loadSlice("-I ./src/ --all ./src/CameraRGBDSimple.ice")
+from RoboCompCameraRGBDSimple import *
+
 Ice.loadSlice("-I ./src/ --all ./src/DepthEstimation.ice")
 from RoboCompDepthEstimation import *
 
 from depthestimationI import *
-
+import RoboCompCameraRGBDSimple
+import RoboCompDepthEstimation
+import depthestimationI
 
 class GenericWorker(QtCore.QObject):
 
