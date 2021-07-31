@@ -1,6 +1,6 @@
 import "DepthEstimation.idsl";
 
-Component DepthEstimation
+Component depthEstimation
 {
     Communications
     {
