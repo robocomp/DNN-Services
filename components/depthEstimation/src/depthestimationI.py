@@ -37,5 +37,5 @@ class DepthEstimationI(DepthEstimation):
         self.worker = worker
 
 
-    def getDepthEstimation(self, depthImg, c):
-        return self.worker.DepthEstimation_getDepthEstimation(depthImg)
+    def getDepthEstimation(self, image , c):
+        return self.worker.DepthEstimation_getDepthEstimation(image)
