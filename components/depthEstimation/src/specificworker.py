@@ -101,17 +101,18 @@ class SpecificWorker(GenericWorker):
     #
     # getDepthEstimation
     #
-    def DepthEstimation_getDepthEstimation(self, depthImg):
+    def DepthEstimation_getDepthEstimation(self, image):
         #
         # implementCODE
         #
         try:
             # Rearranging to form numpy matrix
-            frame = np.fromstring(depthImg.image, np.uint8)
-            
+            #frame = np.fromstring(depthImg.image, np.uint8)
+            frame = np.frombuffer(image.image, np.uint8)
             # Resizing to required size
             # depthImg_shape = (480,640,3)
-            frame = np.reshape(frame, (depthImg.height, depthImg.width, depthImg.depth))
+            #frame = np.reshape(frame, (depthImg.height, depthImg.width, depthImg.depth))
+            frame = frame.reshape(image.height, image.width, image.depth)
             outputs = None
             
             inputs = load_images(frame)
