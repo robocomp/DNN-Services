@@ -34,7 +34,7 @@ For detection using Transfer Learning, download depth estimation models from [Mo
 To avoid changing the *config* file in the repository, we can copy it to the component's home directory, so changes will remain untouched by future git pulls:
 
 ```
-cd ~/robocomp/components/robocomp-robolab/components/detection/depthEstimation/
+cd ~/robocomp/components/DNN-Services/components/depthEstimation/
 ```
 
 After editing the config file we can run the component:
