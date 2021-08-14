@@ -29,6 +29,9 @@ After configuring proxies,
 
 For detection using Transfer Learning, download depth estimation models from [Models](https://drive.google.com/drive/folders/151knPx2eC1ufAO8YoRx9GlPkPCy3-QZ8?usp=sharing), move it to the assets folder. Also, set **self.method = 'mobdepthwithskip'** in `src/specificworker.py`for using *mobdepthwithskip.hdf5"* model or set **self.method = 'mobdepthwithoutskip'** in `src/specificworker.py`for using *mobdepthwithoutskip.hdf5"* model.
 
+For more information on Training and Testing the model: <br/>
+
+`https://github.com/vaibhawkhemka/MobDepth`
 
 ## Starting the component
 To avoid changing the *config* file in the repository, we can copy it to the component's home directory, so changes will remain untouched by future git pulls:
