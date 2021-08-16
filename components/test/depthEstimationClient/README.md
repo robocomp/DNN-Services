@@ -42,7 +42,7 @@ You must ensure the proxies' hostname and port number of `CameraSimpleProxy` and
 To avoid changing the *config* file in the repository, we can copy it to the component's home directory, so changes will remain untouched by future git pulls:
 
 ```
-cd ~/robocomp/components/robocomp-robolab/components/detection/test/depthEstimationClient/
+cd ~/robocomp/components/DNN-Services/components/test/depthEstimationClient/
 
 ```
 
