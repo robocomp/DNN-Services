@@ -112,7 +112,7 @@ class SpecificWorker(GenericWorker):
             # Resizing to required size
             # depthImg_shape = (480,640,3)
             #frame = np.reshape(frame, (depthImg.height, depthImg.width, depthImg.depth))
-            frame = frame.reshape(image.height, image.width, image.depth)
+            frame = frame.reshape(image.height, image.width, 3)
             outputs = None
             
             inputs = load_images(frame)
